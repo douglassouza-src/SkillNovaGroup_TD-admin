@@ -82,11 +82,13 @@ export default function AdminLayout() {
                     />        </Toolbar>
             </AppBar>
 
-            <Box component="nav" sx={{
-  flexGrow: 1,
-  width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
-  p: { xs: 2, md: 3 },
-}}>
+            <Box
+    component="nav"
+    sx={{
+        flexGrow: 1,
+        p: { xs: 2, md: 3 },
+    }}
+>
                 <Drawer
                     variant="temporary"
                     open={mobileOpen}
@@ -112,13 +114,12 @@ export default function AdminLayout() {
             </Box>
 
             <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
-                    p: { xs: 2, md: 3 },
-                }}
-            >
+    component="main"
+    sx={{
+        flexGrow: 1,
+        p: { xs: 2, md: 3 },
+    }}
+>
                 <Toolbar />
 <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
   <Outlet />

@@ -18,7 +18,7 @@ const navigation: NavDefinition[] = [
     label: 'Dashboard',
     to: '/',
     icon: <DashboardIcon fontSize="small" />,
-    roles: ['MASTER', 'MANAGER', 'COORDINATOR', 'TECHNICIAN'],
+    roles: ['MASTER', 'MANAGER'],
   },
   { label: 'Teams', to: '/teams', icon: <GroupsIcon fontSize="small" />, roles: ADMIN },
   { label: 'Treinamentos', to: '/trainings', icon: <SchoolIcon fontSize="small" />, roles: ADMIN },

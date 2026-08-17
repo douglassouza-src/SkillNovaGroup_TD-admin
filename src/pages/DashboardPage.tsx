@@ -1,246 +1,230 @@
-import EventNoteIcon from '@mui/icons-material/EventNote'
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn'
+import EngineeringIcon from '@mui/icons-material/Engineering'
+import EventAvailableIcon from '@mui/icons-material/EventAvailable'
 import GroupsIcon from '@mui/icons-material/Groups'
+import PersonOffIcon from '@mui/icons-material/PersonOff'
 import SchoolIcon from '@mui/icons-material/School'
-import {
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material'
+import StarRateIcon from '@mui/icons-material/StarRate'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import { Alert, Card, CardContent, Grid, Skeleton, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
+
 import PageHeader from '../components/PageHeader'
 import StatCard from '../components/StatCard'
-import StateHandler from '../components/StateHandler'
+import EvaluationDistribution from '../components/dashboard/EvaluationDistribution'
+import KpiCard from '../components/dashboard/KpiCard'
+import TeamComparisonTable from '../components/dashboard/TeamComparisonTable'
 import { useAuth } from '../hooks/useAuth'
-import { listTeams } from '../services/team.service'
-import {
-  listMyHistory,
-  listMyTodo,
-  listTrainings,
-  listTrainingSessions,
-} from '../services/training.service'
-import type {
-  TechnicianHistoryItem,
-  TechnicianTodo,
-  Training,
-  TrainingSession,
-} from '../types'
-import { formatDateTime } from '../utils/date'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { getManagerDashboard } from '../services/dashboard.service'
+import type { ManagerDashboard as ManagerDashboardData } from '../types'
 import { getErrorMessage } from '../utils/error'
-import { evaluationColors, evaluationLabels, participationLabels, trainingTypeLabels } from '../utils/labels'
+import { formatAverage, formatPercent } from '../utils/number'
+
+const MAX_EVALUATION = 3
 
 export default function DashboardPage() {
   const { user } = useAuth()
-  const isTechnician = user?.role === 'TECHNICIAN'
+  useDocumentTitle('Dashboard')
+
+  if (user?.role === 'TECHNICIAN') {
+    return <Navigate to="/me/todo" replace />
+  }
+
+  if (user?.role === 'COORDINATOR') {
+    return <Navigate to="/trainings" replace />
+  }
 
   return (
     <>
       <PageHeader
         title={`Olá, ${user?.name || 'usuário'}`}
-        subtitle="Visão geral da plataforma de treinamentos."
+        subtitle="Indicadores consolidados da operação de treinamentos."
       />
-      {isTechnician ? <TechnicianDashboard /> : <ManagerDashboard />}
+      <ManagerDashboard />
     </>
   )
 }
 
 function ManagerDashboard() {
-  const [teamsCount, setTeamsCount] = useState(0)
-  const [trainings, setTrainings] = useState<Training[]>([])
-  const [upcoming, setUpcoming] = useState<Array<TrainingSession & { trainingName: string }>>([])
+  const [data, setData] = useState<ManagerDashboardData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let active = true
-
-    async function load() {
-      try {
-        const [teams, trainingList] = await Promise.all([listTeams(), listTrainings()])
-        const sessionsByTraining = await Promise.all(
-          trainingList.map(async (training) => {
-            const sessions = await listTrainingSessions(training.id)
-            return sessions.map((session) => ({ ...session, trainingName: training.name }))
-          }),
-        )
-
-        if (!active) return
-
-        const now = Date.now()
-        setTeamsCount(teams.length)
-        setTrainings(trainingList)
-        setUpcoming(
-          sessionsByTraining
-            .flat()
-            .filter((session) => !session.isCancelled && new Date(session.startAt).getTime() > now)
-            .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime())
-            .slice(0, 5),
-        )
-      } catch (err) {
-        if (active) setError(getErrorMessage(err))
-      } finally {
-        if (active) setIsLoading(false)
-      }
-    }
-
-    load()
+    getManagerDashboard()
+      .then((dashboard) => active && setData(dashboard))
+      .catch((err) => active && setError(getErrorMessage(err)))
+      .finally(() => active && setIsLoading(false))
     return () => {
       active = false
     }
   }, [])
 
-  return (
-    <StateHandler isLoading={isLoading} error={error}>
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={4}>
-          <StatCard label="Teams" value={teamsCount} icon={<GroupsIcon />} />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <StatCard label="Treinamentos ativos" value={trainings.length} icon={<SchoolIcon />} />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <StatCard label="Próximas sessões" value={upcoming.length} icon={<EventNoteIcon />} />
-        </Grid>
-      </Grid>
+  if (isLoading) {
+    return <DashboardSkeleton />
+  }
 
-      <Card>
-        <CardContent>
-          <Typography variant="subtitle1" gutterBottom>
-            Próximas sessões
-          </Typography>
-          <Divider />
-          {upcoming.length === 0 ? (
-            <Typography variant="body2" color="text.secondary" sx={{ py: 3, textAlign: 'center' }}>
-              Nenhuma sessão futura agendada.
-            </Typography>
-          ) : (
-            <List disablePadding>
-              {upcoming.map((session) => (
-                <ListItem key={session.id} divider disableGutters sx={{ px: 1 }}>
-                  <ListItemText
-                    primary={session.trainingName}
-                    secondary={`${formatDateTime(session.startAt)}${session.location ? ` • ${session.location}` : ''}`}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          )}
-        </CardContent>
-      </Card>
-    </StateHandler>
+  if (error) {
+    return <Alert severity="error">{error}</Alert>
+  }
+
+  if (!data) {
+    return <Alert severity="info">Nenhum dado consolidado disponível.</Alert>
+  }
+
+  const { summary, evaluations, byTeam } = data
+  const optionalTrainings = summary.totalTrainings - summary.mandatoryTrainings
+
+  return (
+    <Stack spacing={4}>
+      <Section title="Visão executiva" description="Estrutura atual da operação de treinamentos.">
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={3}>
+            <StatCard label="Equipes" value={summary.teams} icon={<GroupsIcon />} />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <StatCard label="Técnicos" value={summary.technicians} icon={<EngineeringIcon />} />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <StatCard
+              label="Treinamentos"
+              value={summary.totalTrainings}
+              subtitle={`${summary.mandatoryTrainings} obrigatório(s) • ${optionalTrainings} opcional(is)`}
+              icon={<SchoolIcon />}
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <StatCard
+              label="Sessões concluídas"
+              value={summary.completedSessions}
+              icon={<EventAvailableIcon />}
+            />
+          </Grid>
+        </Grid>
+      </Section>
+
+      <Section
+        title="Indicadores de desempenho"
+        description="Base para decisões sobre engajamento e qualidade dos treinamentos."
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <KpiCard
+              label="Participação"
+              value={formatPercent(summary.participationRate)}
+              progress={summary.participationRate}
+              color="success"
+              icon={<TrendingUpIcon />}
+              description="Presenças confirmadas sobre o total de participantes."
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <KpiCard
+              label="Ausência"
+              value={formatPercent(summary.absenceRate)}
+              progress={summary.absenceRate}
+              color={summary.absenceRate > 20 ? 'error' : 'warning'}
+              icon={<PersonOffIcon />}
+              description="Faltas registradas sobre o total de participantes."
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <KpiCard
+              label="Avaliação média"
+              value={`${formatAverage(summary.averageEvaluation)} / 3,00`}
+              progress={(summary.averageEvaluation / MAX_EVALUATION) * 100}
+              color="info"
+              icon={<StarRateIcon />}
+              description={`Escala de 0 a ${MAX_EVALUATION} • ${evaluations.total} avaliação(ões)`}
+            />
+          </Grid>
+        </Grid>
+      </Section>
+
+      <Section
+        title="Qualidade e comparação"
+        description="Distribuição das notas e desempenho individual das equipes."
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5}>
+            <EvaluationDistribution evaluations={evaluations} />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <TeamComparisonTable teams={byTeam} />
+          </Grid>
+        </Grid>
+      </Section>
+
+      <Stack direction="row" spacing={1} alignItems="center">
+        <AssignmentTurnedInIcon fontSize="small" color="disabled" />
+        <Typography variant="caption" color="text.secondary">
+          {summary.mandatoryTrainings} treinamento(s) obrigatório(s) monitorado(s) nesta operação.
+        </Typography>
+      </Stack>
+    </Stack>
   )
 }
 
-function TechnicianDashboard() {
-  const [todo, setTodo] = useState<TechnicianTodo[]>([])
-  const [history, setHistory] = useState<TechnicianHistoryItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    let active = true
-
-    Promise.all([listMyTodo(), listMyHistory()])
-      .then(([todoList, historyList]) => {
-        if (!active) return
-        setTodo(todoList)
-        setHistory(historyList)
-      })
-      .catch((err) => {
-        if (active) setError(getErrorMessage(err))
-      })
-      .finally(() => {
-        if (active) setIsLoading(false)
-      })
-
-    return () => {
-      active = false
-    }
-  }, [])
-
-  const next = todo[0]
-
+function Section({
+  title,
+  description,
+  children,
+}: {
+  title: string
+  description?: string
+  children: ReactNode
+}) {
   return (
-    <StateHandler isLoading={isLoading} error={error}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
-                Próximo treinamento
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              {next ? (
-                <Stack spacing={1}>
-                  <Typography variant="h6">{next.trainingName}</Typography>
-                  <Chip
-                    size="small"
-                    label={trainingTypeLabels[next.type]}
-                    color={next.type === 'MANDATORY' ? 'primary' : 'default'}
-                    sx={{ alignSelf: 'flex-start' }}
-                  />
-                  <Typography variant="body2">{formatDateTime(next.session.startAt)}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {next.session.location ?? 'Local a definir'}
-                  </Typography>
-                </Stack>
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  Nenhum treinamento agendado.
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
+    <Stack spacing={1.5}>
+      <Stack>
+        <Typography variant="subtitle1" fontWeight={600}>
+          {title}
+        </Typography>
+        {description && (
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        )}
+      </Stack>
+      {children}
+    </Stack>
+  )
+}
 
-        <Grid item xs={12} md={6}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
-                Histórico recente
-              </Typography>
-              <Divider />
-              {history.length === 0 ? (
-                <Typography variant="body2" color="text.secondary" sx={{ py: 3 }}>
-                  Nenhum treinamento realizado ainda.
-                </Typography>
-              ) : (
-                <List disablePadding>
-                  {history.slice(0, 5).map((item) => (
-                    <ListItem key={item.sessionId} divider disableGutters sx={{ px: 1 }}>
-                      <ListItemText
-                        primary={item.trainingName}
-                        secondary={formatDateTime(item.startAt)}
-                      />
-                      <Stack direction="row" spacing={1}>
-                        <Chip
-                          size="small"
-                          label={participationLabels[item.participationStatus]}
-                          color={item.participationStatus === 'PARTICIPATED' ? 'success' : 'default'}
-                        />
-                        {item.evaluation && (
-                          <Chip
-                            size="small"
-                            variant="outlined"
-                            label={evaluationLabels[item.evaluation]}
-                            color={evaluationColors[item.evaluation]}
-                          />
-                        )}
-                      </Stack>
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            </CardContent>
-          </Card>
+function DashboardSkeleton() {
+  return (
+    <Stack spacing={4}>
+      <Grid container spacing={2}>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Grid item xs={6} md={3} key={index}>
+            <Card>
+              <CardContent>
+                <Skeleton variant="text" width="60%" height={38} />
+                <Skeleton variant="text" width="40%" />
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container spacing={2}>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Grid item xs={12} md={4} key={index}>
+            <Skeleton variant="rounded" height={150} />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={5}>
+          <Skeleton variant="rounded" height={240} />
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <Skeleton variant="rounded" height={240} />
         </Grid>
       </Grid>
-    </StateHandler>
+    </Stack>
   )
 }

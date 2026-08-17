@@ -22,7 +22,7 @@ import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import { Button } from '@mui/material'
 import { useCallback } from 'react'
-import TeamFormDialog from '../../components/teams/TeamFormDialog'
+import TeamFormDialog from '../../components/tems/TeamFormDialog'
 
 export default function TeamsPage() {
     const navigate = useNavigate()

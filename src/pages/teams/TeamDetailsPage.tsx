@@ -4,14 +4,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader'
 import StateHandler from '../../components/StateHandler'
-import { getTeam } from '../../services/team.service'
 import type { Team } from '../../types'
 import { formatDate } from '../../utils/date'
 import { getErrorMessage } from '../../utils/error'
 
 import { useCallback } from 'react'
-import AssignUserDialog from '../../components/teams/AssignUserDialog'
 import { assignCoordinator, assignManager, getTeam } from '../../services/team.service'
+import AssignUserDialog from '../../components/tems/AssignUserDialog'
 
 export default function TeamDetailsPage() {
   const { teamId } = useParams<{ teamId: string }>()

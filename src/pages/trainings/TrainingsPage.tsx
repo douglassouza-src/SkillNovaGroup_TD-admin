@@ -17,12 +17,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader'
 import StateHandler from '../../components/StateHandler'
-import TrainingFormDialog from '../../components/trainings/TrainingFormDialog'
 import { listTrainings } from '../../services/training.service'
 import type { Training } from '../../types'
 import { formatDate } from '../../utils/date'
 import { getErrorMessage } from '../../utils/error'
 import { trainingTypeLabels } from '../../utils/labels'
+import TrainingFormDialog from '../../components/tems/trainings/TrainingFormDialog'
 
 export default function TrainingsPage() {
   const navigate = useNavigate()

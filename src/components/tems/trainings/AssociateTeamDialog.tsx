@@ -11,10 +11,11 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { listTeams } from '../../services/team.service'
-import { associateTeam } from '../../services/training.service'
-import type { Team } from '../../types'
-import { getErrorMessage } from '../../utils/error'
+import type { Team } from '../../../types'
+import { listTeams } from '../../../services/team.service'
+import { getErrorMessage } from '../../../utils/error'
+import { associateTeam } from '../../../services/training.service'
+
 
 interface Props {
   open: boolean

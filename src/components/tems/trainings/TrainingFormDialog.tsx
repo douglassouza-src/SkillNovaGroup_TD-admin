@@ -11,10 +11,11 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { createTraining } from '../../services/training.service'
-import { TRAINING_TYPES, type TrainingType } from '../../types'
-import { getErrorMessage } from '../../utils/error'
-import { trainingTypeLabels } from '../../utils/labels'
+import { TRAINING_TYPES, type TrainingType } from '../../../types'
+import { createTraining } from '../../../services/training.service'
+import { getErrorMessage } from '../../../utils/error'
+import { trainingTypeLabels } from '../../../utils/labels'
+
 
 interface Props {
   open: boolean

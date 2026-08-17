@@ -120,3 +120,37 @@ export interface SessionParticipant {
   evaluatedAt: string | null
   createdAt: string
 }
+
+export interface ManagerDashboardSummary {
+  teams: number
+  technicians: number
+  totalTrainings: number
+  mandatoryTrainings: number
+  completedSessions: number
+  participationRate: number
+  absenceRate: number
+  averageEvaluation: number
+}
+
+export interface ManagerDashboardEvaluations {
+  poor: number
+  good: number
+  veryGood: number
+  total: number
+}
+
+export interface ManagerDashboardTeam {
+  teamId: string
+  teamName: string
+  technicians: number
+  participants: number
+  participationRate: number
+  absenceRate: number
+  averageEvaluation: number
+}
+
+export interface ManagerDashboard {
+  summary: ManagerDashboardSummary
+  evaluations: ManagerDashboardEvaluations
+  byTeam: ManagerDashboardTeam[]
+}

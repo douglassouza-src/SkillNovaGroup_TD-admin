@@ -19,12 +19,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader'
 import StateHandler from '../../components/StateHandler'
-import AssociateTeamDialog from '../../components/trainings/AssociateTeamDialog'
 import { listTrainings, listTrainingSessions } from '../../services/training.service'
 import type { Training, TrainingSession } from '../../types'
 import { formatDateTime } from '../../utils/date'
 import { getErrorMessage } from '../../utils/error'
 import { trainingTypeLabels } from '../../utils/labels'
+import AssociateTeamDialog from '../../components/tems/trainings/AssociateTeamDialog'
 
 export default function TrainingDetailsPage() {
   const { trainingId } = useParams<{ trainingId: string }>()

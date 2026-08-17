@@ -1,4 +1,6 @@
 import type {
+  Evaluation,
+  ParticipationStatus,
     SessionParticipant,
   TechnicianHistoryItem,
   TechnicianTodo,
