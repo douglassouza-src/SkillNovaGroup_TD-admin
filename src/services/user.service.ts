@@ -1,6 +1,14 @@
 import type { Role, UserRef } from '../types'
 import { api } from './api'
 
+export interface CreateUserPayload {
+  name: string
+  email: string
+  password: string
+  role: Role
+  teamId?: string | null
+}
+
 export interface UserOption extends UserRef {
   email: string
   role: Role
@@ -30,4 +38,8 @@ export async function listUsers(): Promise<UserOption[]> {
     teamName: user.team_name,
     isActive: user.is_active,
   }))
+}
+
+export async function createUser(payload: CreateUserPayload): Promise<void> {
+  await api.post('/users', payload)
 }

@@ -6,7 +6,7 @@ import PersonOffIcon from '@mui/icons-material/PersonOff'
 import SchoolIcon from '@mui/icons-material/School'
 import StarRateIcon from '@mui/icons-material/StarRate'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import { Alert, Card, CardContent, Grid, Skeleton, Stack, Typography } from '@mui/material'
+import { Alert, Card, CardContent, CircularProgress, Grid, Skeleton, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
@@ -64,9 +64,11 @@ function ManagerDashboard() {
     }
   }, [])
 
-  if (isLoading) {
-    return <DashboardSkeleton />
-  }
+if (isLoading) {
+    return (
+        <CircularProgress />
+    )
+  }  
 
   if (error) {
     return <Alert severity="error">{error}</Alert>
@@ -191,40 +193,6 @@ function Section({
         )}
       </Stack>
       {children}
-    </Stack>
-  )
-}
-
-function DashboardSkeleton() {
-  return (
-    <Stack spacing={4}>
-      <Grid container spacing={2}>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <Grid item xs={6} md={3} key={index}>
-            <Card>
-              <CardContent>
-                <Skeleton variant="text" width="60%" height={38} />
-                <Skeleton variant="text" width="40%" />
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={2}>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Grid item xs={12} md={4} key={index}>
-            <Skeleton variant="rounded" height={150} />
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={5}>
-          <Skeleton variant="rounded" height={240} />
-        </Grid>
-        <Grid item xs={12} md={7}>
-          <Skeleton variant="rounded" height={240} />
-        </Grid>
-      </Grid>
     </Stack>
   )
 }

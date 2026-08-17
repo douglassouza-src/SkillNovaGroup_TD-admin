@@ -16,8 +16,8 @@ export default function StatCard({ label, value, icon }: Props) {
             <Stack
               alignItems="center"
               justifyContent="center"
-              sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'action.hover', color: 'primary.main' }}
             >
+
               {icon}
             </Stack>
           )}

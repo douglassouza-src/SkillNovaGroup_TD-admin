@@ -1,6 +1,14 @@
 export const ROLES = ['MASTER', 'MANAGER', 'COORDINATOR', 'TECHNICIAN'] as const
 export type Role = (typeof ROLES)[number]
 
+export function normalizeRole(role: string | null | undefined): Role {
+  const normalized = role?.toUpperCase?.() ?? ''
+  if (normalized === 'MASTER' || normalized === 'MANAGER' || normalized === 'COORDINATOR' || normalized === 'TECHNICIAN') {
+    return normalized
+  }
+  return 'TECHNICIAN'
+}
+
 export const PARTICIPATION_STATUS = ['ABSENT', 'PARTICIPATED'] as const
 export type ParticipationStatus = (typeof PARTICIPATION_STATUS)[number]
 

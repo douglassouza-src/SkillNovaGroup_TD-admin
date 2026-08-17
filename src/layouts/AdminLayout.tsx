@@ -37,7 +37,7 @@ export default function AdminLayout() {
         <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Toolbar sx={{ px: 2 }}>
                 <Typography variant="h6" color="primary" noWrap>
-                    SkillNova TD
+                    SkillNovaGroup T&D
                 </Typography>
             </Toolbar>
             <Box sx={{ flex: 1, overflowY: 'auto' }}>
@@ -85,7 +85,8 @@ export default function AdminLayout() {
             <Box
     component="nav"
     sx={{
-        flexGrow: 1,
+        width: { md: DRAWER_WIDTH },
+        flexShrink: 0,
         p: { xs: 2, md: 3 },
     }}
 >
@@ -94,6 +95,7 @@ export default function AdminLayout() {
                     open={mobileOpen}
                     onClose={() => setMobileOpen(false)}
                     ModalProps={{ keepMounted: true }}
+                    anchor="left"
                     sx={{
                         display: { xs: 'block', md: 'none' },
                         '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box' },
@@ -104,6 +106,7 @@ export default function AdminLayout() {
                 <Drawer
                     variant="permanent"
                     open
+                    anchor="left"
                     sx={{
                         display: { xs: 'none', md: 'block' },
                         '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box' },

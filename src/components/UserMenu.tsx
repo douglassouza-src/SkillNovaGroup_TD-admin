@@ -1,4 +1,5 @@
 import LogoutIcon from '@mui/icons-material/Logout'
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
 import {
   Avatar,
   Box,
@@ -10,15 +11,21 @@ import {
   Typography,
 } from '@mui/material'
 import { useState } from 'react'
+import UserFormDialog from './tems/UserFormDialog'
+import type { Role } from '../types'
+import { roleLabels } from '../utils/labels'
 
 interface Props {
   name: string
-  role: string
+  role: Role | ''
   onLogout: () => void
 }
 
 export default function UserMenu({ name, role, onLogout }: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const [isCreateUserDialogOpen, setIsCreateUserDialogOpen] = useState(false)
+  const isMaster = role === 'MASTER'
+  const displayRole = role ? roleLabels[role] : ''
 
   return (
     <>
@@ -28,7 +35,7 @@ export default function UserMenu({ name, role, onLogout }: Props) {
             {name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {role}
+            {displayRole}
           </Typography>
         </Box>
         <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
@@ -50,10 +57,23 @@ export default function UserMenu({ name, role, onLogout }: Props) {
             {name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {role}
+            {displayRole}
           </Typography>
         </Box>
         <Divider />
+        {isMaster && (
+          <MenuItem
+            onClick={() => {
+              setAnchorEl(null)
+              setIsCreateUserDialogOpen(true)
+            }}
+          >
+            <ListItemIcon>
+              <PersonAddAlt1Icon fontSize="small" />
+            </ListItemIcon>
+            Novo usuário
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             setAnchorEl(null)
@@ -66,6 +86,13 @@ export default function UserMenu({ name, role, onLogout }: Props) {
           Sair
         </MenuItem>
       </Menu>
+
+      {isMaster && (
+        <UserFormDialog
+          open={isCreateUserDialogOpen}
+          onClose={() => setIsCreateUserDialogOpen(false)}
+        />
+      )}
     </>
   )
 }

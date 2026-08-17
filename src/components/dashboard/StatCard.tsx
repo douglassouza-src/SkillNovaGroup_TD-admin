@@ -11,31 +11,35 @@ interface Props {
 export default function StatCard({ label, value, subtitle, icon }: Props) {
   return (
     <Card sx={{ height: '100%' }}>
-      <CardContent>
-        <Stack direction="row" spacing={2} alignItems="center">
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ flex: 1 }}>
           {icon && (
             <Stack
               alignItems="center"
               justifyContent="center"
               sx={{
-                width: 44,
-                height: 44,
+                width: 72,
+                height: 72,
                 borderRadius: 2,
                 bgcolor: 'action.hover',
                 color: 'primary.main',
                 flexShrink: 0,
               }}
             >
-              {icon}
+              <Stack sx={{ fontSize: 40, display: 'flex' }}>
+                {icon}
+              </Stack>
             </Stack>
           )}
-          <Stack sx={{ minWidth: 0 }}>
-            <Typography variant="h5">{value}</Typography>
-            <Typography variant="body2" color="text.secondary">
+          <Stack spacing={0.5} alignItems="center" textAlign="center" sx={{ minWidth: 0 }}>
+            <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              {value}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
               {label}
             </Typography>
             {subtitle && (
-              <Typography variant="caption" color="text.disabled">
+              <Typography variant="caption" color="text.disabled" sx={{ pt: 0.5 }}>
                 {subtitle}
               </Typography>
             )}

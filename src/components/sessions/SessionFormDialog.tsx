@@ -88,7 +88,6 @@ export default function SessionFormDialog({ open, trainingId, onClose, onSaved }
               ))}
             </TextField>
             <TextField
-              label="Início"
               type="datetime-local"
               value={startAt}
               onChange={(event) => setStartAt(event.target.value)}
@@ -96,7 +95,6 @@ export default function SessionFormDialog({ open, trainingId, onClose, onSaved }
               required
             />
             <TextField
-              label="Término"
               type="datetime-local"
               value={endAt}
               onChange={(event) => setEndAt(event.target.value)}

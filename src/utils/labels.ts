@@ -18,7 +18,7 @@ export const evaluationLabels: Record<Evaluation, string> = {
 
 export const roleLabels: Record<Role, string> = {
   MASTER: 'Master',
-  MANAGER: 'Gestor',
+  MANAGER: 'Gerente',
   COORDINATOR: 'Coordenador',
   TECHNICIAN: 'Técnico',
 }

@@ -35,9 +35,9 @@ export default function EvaluationDistribution({ evaluations }: Props) {
               return (
                 <Box key={row.key}>
                   <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
-                    <Typography variant="body2">{row.label}</Typography>
+                    <Typography variant="body2">{row.label} |</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {value} ({Math.round(percent)}%)
+                      | {value} ({Math.round(percent)}%)
                     </Typography>
                   </Stack>
                   <LinearProgress

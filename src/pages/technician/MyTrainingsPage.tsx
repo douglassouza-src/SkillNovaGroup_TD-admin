@@ -12,6 +12,8 @@ import {
   Snackbar,
   Stack,
   Typography,
+  Menu,
+  MenuItem,
 } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import PageHeader from '../../components/PageHeader'
@@ -34,6 +36,19 @@ export default function MyTrainingsPage() {
   const [error, setError] = useState<string | null>(null)
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
+
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null)
+  const [menuSessionId, setMenuSessionId] = useState<string | null>(null)
+
+  function handleOpenMenu(e: any, sessionId: string) {
+    setMenuAnchorEl(e.currentTarget)
+    setMenuSessionId(sessionId)
+  }
+
+  function handleCloseMenu() {
+    setMenuAnchorEl(null)
+    setMenuSessionId(null)
+  }
 
   const load = useCallback(() => {
     setIsLoading(true)
@@ -113,10 +128,30 @@ export default function MyTrainingsPage() {
                     variant="outlined"
                     startIcon={<NotificationsActiveIcon />}
                     disabled={sendingId === item.session.id}
-                    onClick={() => handleSendAlert(item.session.id)}
+                    onClick={(e) => handleOpenMenu(e, item.session.id)}
                   >
                     {sendingId === item.session.id ? 'Enviando...' : 'Enviar alerta'}
                   </Button>
+
+                  <Menu
+                    anchorEl={menuAnchorEl}
+                    open={Boolean(menuAnchorEl) && menuSessionId === item.session.id}
+                    onClose={handleCloseMenu}
+                  >
+                    <MenuItem
+                      disabled={sendingId === item.session.id}
+                      onClick={() => {
+                        handleSendAlert(item.session.id)
+                        handleCloseMenu()
+                      }}
+                    >
+                      em 1 minuto
+                    </MenuItem>
+
+                    <MenuItem disabled>em 1 hora</MenuItem>
+                    <MenuItem disabled>em 1 dia</MenuItem>
+                    <MenuItem disabled>em 1 semana</MenuItem>
+                  </Menu>
                 </CardActions>
               </Card>
             </Grid>

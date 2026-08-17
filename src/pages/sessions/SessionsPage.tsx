@@ -107,12 +107,19 @@ export default function SessionsPage() {
                                     <TableCell>Término</TableCell>
                                     <TableCell>Local</TableCell>
                                     <TableCell>Status</TableCell>
+                                    <TableCell>Participantes</TableCell>
                                     <TableCell align="right">Ações</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {visible.map((session) => {
-                                    const isPast = new Date(session.startAt).getTime() <= Date.now()
+                                    const now = Date.now()
+                                    const start = new Date(session.startAt).getTime()
+                                    const end = new Date(session.endAt).getTime()
+
+                                    const isInProgress = start <= now && now < end
+                                    const isPast = end <= now
+
                                     return (
                                         <TableRow key={session.id} hover>
                                             <TableCell>{session.trainingName}</TableCell>
@@ -123,18 +130,30 @@ export default function SessionsPage() {
                                                 <Chip
                                                     size="small"
                                                     variant="outlined"
-                                                    color={session.isCancelled ? 'error' : isPast ? 'default' : 'success'}
-                                                    label={session.isCancelled ? 'Cancelada' : isPast ? 'Realizada' : 'Agendada'}
+                                                    color={session.isCancelled ? 'error' : isInProgress ? 'warning' : isPast ? 'default' : 'success'}
+                                                    label={
+                                                        session.isCancelled
+                                                            ? 'Cancelada'
+                                                            : isInProgress
+                                                            ? 'Em andamento'
+                                                            : isPast
+                                                            ? 'Realizada'
+                                                            : 'Agendada'
+                                                    }
                                                 />
                                             </TableCell>
-                                            <Tooltip title="Participantes">
-                                                <IconButton
-                                                    size="small"
-                                                    onClick={() => navigate(`/sessions/${session.id}/participants`)}
-                                                >
-                                                    <PeopleIcon fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+
+                                            <TableCell align="center">
+                                                <Tooltip title="Participantes">
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() => navigate(`/sessions/${session.id}/participants`)}
+                                                    >
+                                                        <PeopleIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+
                                             <TableCell align="right">
                                                 <Tooltip title="Reagendar">
                                                     <span>
@@ -152,7 +171,7 @@ export default function SessionsPage() {
                                                         <IconButton
                                                             size="small"
                                                             color="error"
-                                                            disabled={session.isCancelled || isPast}
+                                                            disabled={session.isCancelled || isPast || isInProgress}
                                                             onClick={() => setToCancel(session)}
                                                         >
                                                             <CancelIcon fontSize="small" />

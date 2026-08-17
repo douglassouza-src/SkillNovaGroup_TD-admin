@@ -54,7 +54,7 @@ export default function LoginPage() {
         <CardContent sx={{ p: 4 }}>
           <Stack spacing={1} sx={{ mb: 3 }}>
             <Typography variant="h5" color="primary">
-              SkillNova TD
+              SkillNovaGroup T&D
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Acesse o painel administrativo de treinamentos.
