@@ -1,75 +1,42 @@
-# React + TypeScript + Vite
+# SkillNovaGroup T&D Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Painel administrativo para gestão de treinamentos, equipes, sessões e acompanhamento de colaboradores. O sistema foi desenvolvido para facilitar o controle operacional e a autenticação de usuários por perfil, com foco em gestão de capacitação e desenvolvimento de times técnicos.
 
-Currently, two official plugins are available:
+## Visão Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Este projeto é uma aplicação web em React + TypeScript com Vite, voltada para o gerenciamento de:
 
-## React Compiler
+- equipes e usuários
+- treinamentos
+- sessões de capacitação
+- participação de técnicos
+- dashboard com métricas e comparativos
+- autenticação e autorização por perfil
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A interface se conecta a uma API externa para buscar e enviar dados, incluindo login, dados do usuário autenticado, treinamentos, times e sessões.
 
-## Expanding the ESLint configuration
+## Stack Tecnológica
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Vite
+- Material UI (MUI)
+- React Router
+- Axios
+- ESLint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Antes de começar, certifique-se de ter instalado:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 18 ou superior
+- npm ou pnpm
+- uma API backend em execução, com os endpoints de autenticação e dados do domínio
 
-```
+## Instalação
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Clone o repositório:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```bash
+git clone <url-do-repositorio>
+cd SkillNovaGroup_TD-admin
