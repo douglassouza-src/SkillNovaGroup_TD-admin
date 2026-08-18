@@ -92,11 +92,11 @@ export default function MyTrainingsPage() {
       >
         <Grid container spacing={2}>
           {items.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item.session.id}>
+            <Grid size={{ xs: 12, sm: 6, md:4 }}  key={item.session.id}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Stack spacing={1.5}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+                    <Stack direction="row" sx={{justifyContent: "space-between" ,alignItems: "flex-start"}}>
                       <Typography variant="subtitle1">{item.trainingName}</Typography>
                       <Chip
                         size="small"
@@ -105,7 +105,7 @@ export default function MyTrainingsPage() {
                       />
                     </Stack>
 
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
                       <EventIcon fontSize="small" color="action" />
                       <Typography variant="body2">
                         {formatDate(item.session.startAt)} • {formatTime(item.session.startAt)} às{' '}
@@ -113,7 +113,7 @@ export default function MyTrainingsPage() {
                       </Typography>
                     </Stack>
 
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
                       <PlaceIcon fontSize="small" color="action" />
                       <Typography variant="body2" color="text.secondary">
                         {item.session.location ?? 'Local a definir'}

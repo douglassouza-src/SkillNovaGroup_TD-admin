@@ -55,20 +55,20 @@ function ManagerDashboard() {
 
   useEffect(() => {
     let active = true
+
     getManagerDashboard()
       .then((dashboard) => active && setData(dashboard))
       .catch((err) => active && setError(getErrorMessage(err)))
       .finally(() => active && setIsLoading(false))
+
     return () => {
       active = false
     }
   }, [])
 
-if (isLoading) {
-    return (
-        <CircularProgress />
-    )
-  }  
+  if (isLoading) {
+    return <CircularProgress />
+  }
 
   if (error) {
     return <Alert severity="error">{error}</Alert>
@@ -82,16 +82,29 @@ if (isLoading) {
   const optionalTrainings = summary.totalTrainings - summary.mandatoryTrainings
 
   return (
-    <Stack spacing={4}>
-      <Section title="Visão executiva" description="Estrutura atual da operação de treinamentos.">
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={3}>
-            <StatCard label="Equipes" value={summary.teams} icon={<GroupsIcon />} />
+    <Stack spacing={{ xs: 3, md: 4 }}>
+      <Section
+        title="Visão executiva"
+        description="Estrutura atual da operação de treinamentos."
+      >
+        <Grid container spacing={{ xs: 2, sm: 2.5 }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatCard
+              label="Equipes"
+              value={summary.teams}
+              icon={<GroupsIcon />}
+            />
           </Grid>
-          <Grid item xs={6} md={3}>
-            <StatCard label="Técnicos" value={summary.technicians} icon={<EngineeringIcon />} />
+
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatCard
+              label="Técnicos"
+              value={summary.technicians}
+              icon={<EngineeringIcon />}
+            />
           </Grid>
-          <Grid item xs={6} md={3}>
+
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               label="Treinamentos"
               value={summary.totalTrainings}
@@ -99,7 +112,8 @@ if (isLoading) {
               icon={<SchoolIcon />}
             />
           </Grid>
-          <Grid item xs={6} md={3}>
+
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               label="Sessões concluídas"
               value={summary.completedSessions}
@@ -113,8 +127,8 @@ if (isLoading) {
         title="Indicadores de desempenho"
         description="Base para decisões sobre engajamento e qualidade dos treinamentos."
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
+        <Grid container spacing={{ xs: 2, sm: 2.5 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <KpiCard
               label="Participação"
               value={formatPercent(summary.participationRate)}
@@ -124,7 +138,8 @@ if (isLoading) {
               description="Presenças confirmadas sobre o total de participantes."
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+
+          <Grid size={{ xs: 12, md: 4 }}>
             <KpiCard
               label="Ausência"
               value={formatPercent(summary.absenceRate)}
@@ -134,7 +149,8 @@ if (isLoading) {
               description="Faltas registradas sobre o total de participantes."
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+
+          <Grid size={{ xs: 12, md: 4 }}>
             <KpiCard
               label="Avaliação média"
               value={`${formatAverage(summary.averageEvaluation)} / 3,00`}
@@ -151,19 +167,34 @@ if (isLoading) {
         title="Qualidade e comparação"
         description="Distribuição das notas e desempenho individual das equipes."
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={5}>
+        <Grid container spacing={{ xs: 2, sm: 2.5 }}>
+          <Grid size={{ xs: 12, lg: 5 }}>
             <EvaluationDistribution evaluations={evaluations} />
           </Grid>
-          <Grid item xs={12} md={7}>
+
+          <Grid size={{ xs: 12, lg: 7 }}>
             <TeamComparisonTable teams={byTeam} />
           </Grid>
         </Grid>
       </Section>
 
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: 'center',
+          minWidth: 0,
+        }}
+      >
         <AssignmentTurnedInIcon fontSize="small" color="disabled" />
-        <Typography variant="caption" color="text.secondary">
+
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            minWidth: 0,
+          }}
+        >
           {summary.mandatoryTrainings} treinamento(s) obrigatório(s) monitorado(s) nesta operação.
         </Typography>
       </Stack>
@@ -181,17 +212,19 @@ function Section({
   children: ReactNode
 }) {
   return (
-    <Stack spacing={1.5}>
+    <Stack spacing={{ xs: 1.25, md: 1.5 }}>
       <Stack>
-        <Typography variant="subtitle1" fontWeight={600}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
           {title}
         </Typography>
+
         {description && (
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
         )}
       </Stack>
+
       {children}
     </Stack>
   )

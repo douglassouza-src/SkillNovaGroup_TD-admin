@@ -70,7 +70,11 @@ export default function RescheduleSessionDialog({ open, session, onClose, onSave
               type="datetime-local"
               value={startAt}
               onChange={(event) => setStartAt(event.target.value)}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
               required
             />
             <TextField
@@ -78,7 +82,11 @@ export default function RescheduleSessionDialog({ open, session, onClose, onSave
               type="datetime-local"
               value={endAt}
               onChange={(event) => setEndAt(event.target.value)}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
               required
             />
             <TextField

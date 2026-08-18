@@ -34,10 +34,12 @@ export default function TeamComparisonTable({ teams }: Props) {
       <CardContent>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
-          justifyContent="space-between"
-          alignItems={{ xs: 'flex-start', sm: 'center' }}
           spacing={2}
-          sx={{ mb: 1 }}
+          sx={{
+            justifyContent: 'space-between',
+            alignItems: { xs: 'flex-start', sm: 'center' },
+            mb: 1,
+          }}
         >
           <Typography variant="subtitle1">Desempenho por equipe</Typography>
           <TextField

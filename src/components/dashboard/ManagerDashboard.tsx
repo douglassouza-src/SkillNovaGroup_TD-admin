@@ -68,10 +68,10 @@
 //       </Grid>
 
 //       <Grid container spacing={2}>
-//         <Grid item xs={12} md={5}>
+//         <Grid size={{ xs: 12, md: 5 }}>
 //           <EvaluationDistribution evaluations={evaluations} />
 //         </Grid>
-//         <Grid item xs={12} md={7}>
+//         <Grid size={{ xs: 12, md: 7 }}>
 //           <TeamComparisonTable teams={byTeam} />
 //         </Grid>
 //       </Grid>
@@ -95,10 +95,10 @@
 //         ))}
 //       </Grid>
 //       <Grid container spacing={2}>
-//         <Grid item xs={12} md={5}>
+//         <Grid size={{ xs: 12, md: 5 }}>
 //           <Skeleton variant="rounded" height={220} />
 //         </Grid>
-//         <Grid item xs={12} md={7}>
+//         <Grid size={{ xs: 12, md: 7 }}>
 //           <Skeleton variant="rounded" height={220} />
 //         </Grid>
 //       </Grid>

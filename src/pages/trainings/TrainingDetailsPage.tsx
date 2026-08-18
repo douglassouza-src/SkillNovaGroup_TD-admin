@@ -77,7 +77,7 @@ export default function TrainingDetailsPage() {
           {training && (
             <Card>
               <CardContent>
-                <Stack direction="row" spacing={3} alignItems="center">
+                <Stack direction="row" spacing={3} sx={{alignItems: "center"}}>
                   <Chip
                     size="small"
                     label={trainingTypeLabels[training.type]}

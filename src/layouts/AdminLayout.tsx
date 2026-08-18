@@ -44,13 +44,16 @@ export default function AdminLayout() {
                 <SidebarNav items={items} onNavigate={() => setMobileOpen(false)} />
             </Box>
             <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
-  <Typography variant="caption" color="text.secondary">
-    {user?.name}
-  </Typography>
-  <Typography variant="caption" color="text.secondary" display="block">
-    {user ? roleLabels[user.role] : ''}
-  </Typography>
-</Box>
+                <Typography variant="caption" color="text.secondary">
+                    {user?.name}
+                </Typography>
+                <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ display: 'block' }}
+                >    {user ? roleLabels[user.role] : ''}
+                </Typography>
+            </Box>
         </Box>
     )
 
@@ -83,13 +86,13 @@ export default function AdminLayout() {
             </AppBar>
 
             <Box
-    component="nav"
-    sx={{
-        width: { md: DRAWER_WIDTH },
-        flexShrink: 0,
-        p: { xs: 2, md: 3 },
-    }}
->
+                component="nav"
+                sx={{
+                    width: { md: DRAWER_WIDTH },
+                    flexShrink: 0,
+                    p: { xs: 2, md: 3 },
+                }}
+            >
                 <Drawer
                     variant="temporary"
                     open={mobileOpen}
@@ -117,16 +120,16 @@ export default function AdminLayout() {
             </Box>
 
             <Box
-    component="main"
-    sx={{
-        flexGrow: 1,
-        p: { xs: 2, md: 3 },
-    }}
->
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    p: { xs: 2, md: 3 },
+                }}
+            >
                 <Toolbar />
-<Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-  <Outlet />
-</Box>            </Box>
+                <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+                    <Outlet />
+                </Box>            </Box>
         </Box>
     )
 }

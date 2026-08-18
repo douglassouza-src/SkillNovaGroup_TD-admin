@@ -211,7 +211,11 @@ export default function UserFormDialog({ open, onClose }: Props) {
                 onChange={(event) => updateField('name', event.target.value)}
                 required
                 autoFocus
-                inputProps={{ maxLength: 150 }}
+                slotProps={{
+                  htmlInput: {
+                    maxLength: 100,
+                  },
+                }}
                 error={Boolean(fieldErrors.name)}
                 helperText={fieldErrors.name}
               />
@@ -222,7 +226,11 @@ export default function UserFormDialog({ open, onClose }: Props) {
                 value={values.email}
                 onChange={(event) => updateField('email', event.target.value)}
                 required
-                inputProps={{ maxLength: 255 }}
+                slotProps={{
+                  htmlInput: {
+                    maxLength: 100,
+                  },
+                }}
                 error={Boolean(fieldErrors.email)}
                 helperText={fieldErrors.email}
               />
@@ -233,7 +241,11 @@ export default function UserFormDialog({ open, onClose }: Props) {
                 value={values.password}
                 onChange={(event) => updateField('password', event.target.value)}
                 required
-                inputProps={{ maxLength: 255 }}
+                slotProps={{
+                  htmlInput: {
+                    maxLength: 100,
+                  },
+                }}
                 error={Boolean(fieldErrors.password)}
                 helperText={fieldErrors.password}
               />

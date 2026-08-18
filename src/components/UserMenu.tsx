@@ -31,8 +31,13 @@ export default function UserMenu({ name, role, onLogout }: Props) {
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Box sx={{ textAlign: 'right', display: { xs: 'none', sm: 'block' } }}>
-          <Typography variant="body2" fontWeight={600} lineHeight={1.2}>
-            {name}
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: 600,
+              lineHeight: 1.2,
+            }}
+          >            {name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
             {displayRole}
@@ -53,8 +58,10 @@ export default function UserMenu({ name, role, onLogout }: Props) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Box sx={{ px: 2, py: 1 }}>
-          <Typography variant="body2" fontWeight={600}>
-            {name}
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 600 }}
+          >            {name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
             {displayRole}

@@ -91,14 +91,22 @@ export default function SessionFormDialog({ open, trainingId, onClose, onSaved }
               type="datetime-local"
               value={startAt}
               onChange={(event) => setStartAt(event.target.value)}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
               required
             />
             <TextField
               type="datetime-local"
               value={endAt}
               onChange={(event) => setEndAt(event.target.value)}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
               required
             />
             <TextField

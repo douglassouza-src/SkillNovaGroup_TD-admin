@@ -12,9 +12,11 @@ export default function StatCard({ label, value, subtitle, icon }: Props) {
   return (
     <Card sx={{ height: '100%' }}>
       <CardContent>
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} sx={{
+          alignItems: "center",
+        }}>
           {icon && (
-            <Stack alignItems="center" justifyContent="center">
+            <Stack sx={{ alignItems: "center", justifyContent: "center" }}>
               {icon}
             </Stack>
           )}

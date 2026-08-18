@@ -5,7 +5,7 @@ export default function ForbiddenPage() {
   const navigate = useNavigate()
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2} sx={{alignItems: "center"}}>
         <Typography variant="h5">Acesso negado</Typography>
         <Typography variant="body2" color="text.secondary">
           Você não tem permissão para acessar esta área.

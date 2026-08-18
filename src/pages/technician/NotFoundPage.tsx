@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate()
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2} sx={{alignItems: "center"}}>
         <Typography variant="h4">404</Typography>
         <Typography variant="body2" color="text.secondary">
           A página que você procura não existe.

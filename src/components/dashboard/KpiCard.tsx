@@ -22,15 +22,30 @@ export default function KpiCard({
     <Card sx={{ height: '100%', borderTop: 3, borderTopColor: `${color}.main` }}>
       <CardContent sx={{ py: 3 }}>
         <Stack spacing={1.5}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="overline" color="text.secondary" letterSpacing={1}>
-              {label}
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography
+              variant="overline"
+              color="text.secondary"
+              sx={{ letterSpacing: 1 }}
+            >              {label}
             </Typography>
             <Stack sx={{ color: `${color}.main` }}>{icon}</Stack>
           </Stack>
 
-          <Typography variant="h3" fontWeight={600} color={`${color}.main`} lineHeight={1}>
-            {value}
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 600,
+              color: `${color}.main`,
+              lineHeight: 1,
+            }}
+          >            {value}
           </Typography>
 
           {typeof progress === 'number' && (

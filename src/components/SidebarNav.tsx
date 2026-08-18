@@ -50,7 +50,14 @@ export default function SidebarNav({ items, onNavigate }: Props) {
             <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>
             <ListItemText
               primary={item.label}
-              primaryTypographyProps={{ fontSize: 14, fontWeight: 500 }}
+              slotProps={{
+                primary: {
+                  sx: {
+                    fontSize: 14,
+                    fontWeight: 600,
+                  },
+                },
+              }}
             />
           </ListItemButton>
         )

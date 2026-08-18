@@ -57,7 +57,7 @@ useEffect(() => {
                 <Divider />
                 <Field label="Criado em" value={formatDate(team.createdAt)} />
                 <Divider />
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction="row" spacing={2} sx={{alignItems: "center"}}>
                   <Typography variant="body2" color="text.secondary" sx={{ minWidth: 140 }}>
                     Status
                   </Typography>

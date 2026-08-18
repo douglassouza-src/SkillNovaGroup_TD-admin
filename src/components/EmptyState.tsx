@@ -11,7 +11,9 @@ interface Props {
 export default function EmptyState({ message, description, action }: Props) {
   return (
     <Box sx={{ py: 6, textAlign: 'center' }}>
-      <Stack spacing={1} alignItems="center">
+      <Stack spacing={1} sx={{
+        alignItems: "center",
+      }}>
         <InboxIcon sx={{ fontSize: 44, color: 'text.disabled' }} />
         <Typography variant="subtitle1">{message}</Typography>
         {description && (

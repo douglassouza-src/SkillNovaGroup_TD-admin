@@ -12,27 +12,39 @@ export default function StatCard({ label, value, subtitle, icon }: Props) {
   return (
     <Card sx={{ height: '100%' }}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ flex: 1 }}>
-          {icon && (
-            <Stack
-              alignItems="center"
-              justifyContent="center"
-              sx={{
-                width: 72,
-                height: 72,
-                borderRadius: 2,
-                bgcolor: 'action.hover',
-                color: 'primary.main',
-                flexShrink: 0,
-              }}
-            >
-              <Stack sx={{ fontSize: 40, display: 'flex' }}>
-                {icon}
-              </Stack>
+        <Stack
+          spacing={2}
+          sx={{
+            justifyContent: "center",
+            alignItems: 'center',
+            flex: 1,
+          }}
+        >          {icon && (
+          <Stack
+            sx={{
+              justifyContent: "center",
+              alignItems: 'center',
+              width: 72,
+              height: 72,
+              borderRadius: 2,
+              bgcolor: 'action.hover',
+              color: 'primary.main',
+              flexShrink: 0,
+            }}
+          >
+            <Stack sx={{ fontSize: 40, display: 'flex' }}>
+              {icon}
             </Stack>
-          )}
-          <Stack spacing={0.5} alignItems="center" textAlign="center" sx={{ minWidth: 0 }}>
-            <Typography variant="h4" sx={{ fontWeight: 600 }}>
+          </Stack>
+        )}
+          <Stack
+            spacing={0.5}
+            sx={{
+              textAlign: "center",
+              alignItems: 'center',
+              minWidth: 0,
+            }}
+          >            <Typography variant="h4" sx={{ fontWeight: 600 }}>
               {value}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
